@@ -1,0 +1,27 @@
+---
+    - name: Copy postgresql.conf
+      copy: src=configs/postgresql.conf-slave dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf mode=755
+    - name: Copy pg_hba.conf
+      copy: src=configs/pg_hba.conf-slave dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf mode=755
+    - name: Add interface IP to listen on 
+      become_user: postgres
+      lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf line="listen_addresses = '{{ inventory_hostname }}'"
+    - name: Add master IP to pg_hba.conf
+      become_user: postgres
+      lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf line="host    replication     rep     {{item}}/32  md5"
+      with_items:
+        - "{{ groups['pmasters'] }}"
+    - name: Add master IP to pg_hba.conf
+      become_user: postgres
+      lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf line="host  all  {{ db_user }}     {{item}}/32  trust"
+      with_items:
+        - "{{ groups['pmasters'] }}"
+    - name: Copy recovery.conf
+      copy: src=configs/recovery.conf-slave dest=/var/lib/postgresql/{{ postgresql_version }}/main/recovery.conf mode=755
+    - name: Add masters IP to recovery.conf
+      become_user: postgres
+      lineinfile: dest=/var/lib/postgresql/{{ postgresql_version }}/main/recovery.conf line="primary_conninfo = 'host={{item}} port=5432 user={{ rep_user }} password={{ rep_password }}'"
+      with_items:
+        - "{{ groups['pmasters'] }}"
+    - name: Start Slave Postgres Service
+      service: name=postgresql state=started

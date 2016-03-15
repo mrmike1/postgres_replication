@@ -1,0 +1,14 @@
+---
+postgresql_version: 9.5
+db_user: postgres
+db_name: test
+db_pass: 11
+rep_user: rep
+rep_password: reppassword
+project_name: replication
+project_root: /home/postgres
+system_packages:
+  - rsync
+  - postgresql-9.5
+  - postgresql-9.5-prefix
+  - python-psycopg2

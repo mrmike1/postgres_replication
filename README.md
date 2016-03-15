@@ -20,4 +20,11 @@ setup your /etc/ansible/hosts file with postgres slaves in the group pslaves and
 
 192.168.1.151 ansible_user=postgres ansible_connection=ssh
 
+[postgres:children]
+
+pslaves
+pmasters
+
+
+
 edit includes/vars.yaml with database user, password , version etc

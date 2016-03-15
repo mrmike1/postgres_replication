@@ -2,7 +2,7 @@
 This playbook uses apt to install postgresql and setup master and slave replication
 
 Ran with
-ansible-playbook postgres.yaml --ask-pass --ask-become-pass
+ansible-playbook postgres_playbook.yaml --ask-pass --ask-become-pass
 
 Tested with Debian debian-8.3.0
 

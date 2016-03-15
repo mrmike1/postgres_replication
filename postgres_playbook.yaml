@@ -5,7 +5,7 @@
   gather_facts: false
   sudo: true
   tasks:
-    - name: Install Packates
+    - name: Install Packages
       include: includes/packages.yaml
     - name: Stop Slave Postgres service
       service: name=postgresql state=stopped

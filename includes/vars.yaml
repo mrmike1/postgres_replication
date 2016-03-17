@@ -1,5 +1,17 @@
 ---
 postgresql_version: 9.5
+postgres_vars:
+ - max_connections = 100
+ - shared_buffers = 1GB
+ - effective_cache_size = 1GB
+ - archive_mode = on
+ - archive_command = 'cd .'
+ - max_wal_senders = 20
+ - hot_standby = on
+ - wal_keep_segments = 20
+ - max_wal_size = 1GB
+ - wal_level = 'hot_standby'
+
 db_user: postgres
 db_name: test
 db_pass: 11

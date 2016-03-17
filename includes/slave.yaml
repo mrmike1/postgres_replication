@@ -1,6 +1,9 @@
 ---
-    - name: Copy postgresql.conf
-      copy: src=configs/postgresql.conf dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf mode=755
+    - name: Add postgres config directives
+      become_user: postgres
+      lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf line={{ item }}
+      with_items:
+        - "{{ postgres_vars }}"
 
     - name: Add interface IP to listen on 
       become_user: postgres
@@ -18,8 +21,13 @@
       with_items:
         - "{{ groups['pmasters'] }}"
 
-    - name: Copy recovery.conf
-      copy: src=configs/recovery.conf-slave dest=/var/lib/postgresql/{{ postgresql_version }}/main/recovery.conf mode=755
+    - name: create Recovery file
+      become_user: postgres
+      lineinfile: dest=/var/lib/postgresql/{{ postgresql_version }}/main/recovery.conf create=True state=present line="standby_mode = 'on'" 
+
+    - name: append to recovery
+      become_user: postgres
+      lineinfile: dest=/var/lib/postgresql/{{ postgresql_version }}/main/recovery.conf line="trigger_file = '/tmp/postgresql.trigger.5432'"
 
     - name: Add masters IP to recovery.conf
       become_user: postgres

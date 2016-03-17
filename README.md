@@ -1,15 +1,15 @@
 
-#This playbook uses apt to install postgresql and setup master and slave replication
+This playbook uses apt to install postgresql and setup master and slave replication
 
 Ran with:
 
 
      ansible-playbook postgres_playbook.yaml --ask-pass --ask-become-pass
 
-#Tested with Debian debian-8.3.0
+Tested with Debian debian-8.3.0
 
-#setup your /etc/ansible/hosts file with postgres slaves in the group pslaves and master in group pmasters
-#postgres:children  pslaves pmasters
+setup your /etc/ansible/hosts file with postgres slaves in the group pslaves and master in group pmasters
+postgres:children  pslaves pmasters
 
 
 [pmasters]
@@ -29,4 +29,4 @@ pmasters
 
 
 
-#edit includes/vars.yaml with database user, password , version etc
+edit includes/vars.yaml with database user, password , version etc

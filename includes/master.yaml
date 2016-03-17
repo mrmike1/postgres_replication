@@ -12,7 +12,7 @@
       shell: psql -c "CREATE USER {{ rep_user }} REPLICATION LOGIN CONNECTION LIMIT 5 ENCRYPTED PASSWORD '{{ rep_password }}';"
 
     - name: Copy postgresql.conf
-      copy: src=configs/postgresql.conf-master dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf mode=755
+      copy: src=configs/postgresql.conf dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf mode=755
 
     - name: Restart Postgresql service
       service: name=postgresql state=restarted

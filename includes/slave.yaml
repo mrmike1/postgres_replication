@@ -1,6 +1,6 @@
 ---
     - name: Copy postgresql.conf
-      copy: src=configs/postgresql.conf-slave dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf mode=755
+      copy: src=configs/postgresql.conf dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf mode=755
 
     - name: Add interface IP to listen on 
       become_user: postgres

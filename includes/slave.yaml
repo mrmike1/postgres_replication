@@ -23,11 +23,9 @@
 
     - name: create Recovery file
       become_user: postgres
-      lineinfile: dest=/var/lib/postgresql/{{ postgresql_version }}/main/recovery.conf create=True state=present line="standby_mode = 'on'" 
-
-    - name: append to recovery
-      become_user: postgres
-      lineinfile: dest=/var/lib/postgresql/{{ postgresql_version }}/main/recovery.conf line="trigger_file = '/tmp/postgresql.trigger.5432'"
+      lineinfile: dest=/var/lib/postgresql/{{ postgresql_version }}/main/recovery.conf create=True state=present line="{{ item }}" 
+      with_items:
+        - "{{ slave_recovery }}"
 
     - name: Add masters IP to recovery.conf
       become_user: postgres

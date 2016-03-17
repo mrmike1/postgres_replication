@@ -12,6 +12,10 @@ postgres_vars:
  - max_wal_size = 1GB
  - wal_level = 'hot_standby'
 
+slave_recovery:
+ - trigger_file = '/tmp/postgresql.trigger.5432'
+ - standby_mode = 'on'
+
 db_user: postgres
 db_name: test
 db_pass: 11

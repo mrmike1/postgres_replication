@@ -14,9 +14,6 @@
     - name: Copy postgresql.conf
       copy: src=configs/postgresql.conf-master dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf mode=755
 
-    - name: Copy pg_hba.conf
-      copy: src=configs/pg_hba.conf-master dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf mode=755
-
     - name: Restart Postgresql service
       service: name=postgresql state=restarted
 

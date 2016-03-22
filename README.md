@@ -7,8 +7,10 @@ Ran with:
 
 Tested with Debian debian-8.3.0
 
-setup your /etc/ansible/hosts file with postgres slaves in the group pslaves and master in group pmasters
+setup your /etc/ansible/hosts file with postgres slaves in the group pslaves and master in group pmasters.
+
 to add new slaves, just add the hosts in your slave group and run the playbook again
+
 edit include/vars.yml with your variables
 
 

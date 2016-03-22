@@ -9,21 +9,21 @@ Tested with Debian debian-8.3.0
 
 setup your /etc/ansible/hosts file with postgres slaves in the group pslaves and master in group pmasters
 
-postgres:children  
+ [postgres:children]  
 
-pslaves pmasters
+  pslaves pmasters
 
 playbook now checks if a slave added is new and only performs actions on the new slave not on existing slaves.
 
-[pmasters]
+  [pmasters]
 
-192.168.1.192 ansible_user=postgres ansible_connection=ssh
+  192.168.1.192 ansible_user=postgres ansible_connection=ssh
 
-[pslaves]
+  [pslaves]
 
-192.168.1.191 ansible_user=postgres ansible_connection=ssh
+  192.168.1.191 ansible_user=postgres ansible_connection=ssh
 
-192.168.1.151 ansible_user=postgres ansible_connection=ssh
+  192.168.1.151 ansible_user=postgres ansible_connection=ssh
 
 [postgres:children]
 

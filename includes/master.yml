@@ -51,7 +51,6 @@
     - name: Rsync tables
       become_user: postgres
       shell: rsync -cva --inplace --exclude=*pg_xlog* /var/lib/postgresql/{{ postgresql_version }}/main/ postgres@{{ item }}:/var/lib/postgresql/{{ postgresql_version }}/main/
-      #when: item.is_new is defined and 'pslaves' in group_names
       with_items:
         - "{{ groups['pslaves'] }}"
       when:

@@ -14,7 +14,6 @@
       lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf line="host    replication     rep     {{item}}/32  md5"
       with_items:
         - "{{ groups['pmasters'] }}"
-      when: "'pslaves' in group_names"
 
     - name: Add master IP to pg_hba.conf
       become_user: postgres

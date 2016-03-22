@@ -8,28 +8,24 @@ Ran with:
 Tested with Debian debian-8.3.0
 
 setup your /etc/ansible/hosts file with postgres slaves in the group pslaves and master in group pmasters
+to add new slaves, just add the hosts in your slave group and run the playbook again
+edit include/vars.yml with your variables
 
- [postgres:children]  
 
-  pslaves pmasters
+      [pmasters]
 
-playbook now checks if a slave added is new and only performs actions on the new slave not on existing slaves.
+      192.168.1.192 ansible_user=postgres ansible_connection=ssh
 
-  [pmasters]
+      [pslaves]
 
-  192.168.1.192 ansible_user=postgres ansible_connection=ssh
+      192.168.1.191 ansible_user=postgres ansible_connection=ssh
 
-  [pslaves]
+      192.168.1.151 ansible_user=postgres ansible_connection=ssh
 
-  192.168.1.191 ansible_user=postgres ansible_connection=ssh
+      [postgres:children]
 
-  192.168.1.151 ansible_user=postgres ansible_connection=ssh
-
-[postgres:children]
-
-pslaves
-pmasters
+      pslaves
+      pmasters
 
 
 
-edit includes/vars.yaml with database user, password , version etc

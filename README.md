@@ -11,7 +11,7 @@ setup your /etc/ansible/hosts file with postgres slaves in the group pslaves and
 
 to add new slaves, just add the hosts in your slave group and run the playbook again
 
-edit include/vars.yml with your variables
+edit your includes/vars.yml with your variables
 
 
       [pmasters]

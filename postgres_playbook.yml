@@ -6,7 +6,7 @@
   sudo: true
   tasks:
     - name: Check if Postgres is installed
-      stat: path=/etc/postgresql/9.5/main/postgresql.conf
+      stat: path=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf
       register: is_installed
 
     - name: Check if already a slave

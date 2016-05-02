@@ -14,4 +14,3 @@
 
     - name: change data directory
       include: includes/data_dir.yml
-      when: data_directory is defined

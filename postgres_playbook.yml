@@ -31,4 +31,4 @@
       include: includes/slave.yml
       when:
        - "'pslaves' in group_names"
-        #- recovery.stat.exists == False
+       - recovery.stat.exists == False

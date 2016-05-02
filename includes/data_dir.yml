@@ -1,20 +1,15 @@
 ---
-    - name:  change data directory from vars
+    - name: create data directory and change ownership
       become_method: sudo
-      file: path={{ data_directory }} state=directory
-
-    - name: change ownership
-      become_method: sudo
-      file: path={{ data_directory }} owner=postgres group=postgres
+      file: path={{ data_directory }} owner=postgres group=postgres mode=0775 recurse=yes state=directory
 
     - name: run initdb on directory
       become_user: postgres
-      shell: initdb -D {{ data_directory }
+      command: /usr/lib/postgresql/{{ postgresql_version }}/bin/initdb -D {{ data_directory }}
 
     - name: change postgres data directory in config files
       become_user: postgres
-      lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf 
-	          line=data_directory = '{{ data_directory }}'
+      lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf line="data_directory = '{{ data_directory }}'"
 
     - name: Restart Postgresql service
       service: name=postgresql state=restarted

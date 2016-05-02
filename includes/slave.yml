@@ -23,13 +23,13 @@
 
     - name: create Recovery file
       become_user: postgres
-      lineinfile: dest=/var/lib/postgresql/{{ postgresql_version }}/main/recovery.conf create=True state=present line="{{ item }}" 
+      lineinfile: dest={{ data_directory }}/recovery.conf create=True state=present line="{{ item }}" 
       with_items:
         - "{{ slave_recovery }}"
 
     - name: Add masters IP to recovery.conf
       become_user: postgres
-      lineinfile: dest=/var/lib/postgresql/{{ postgresql_version }}/main/recovery.conf line="primary_conninfo = 'host={{item}} port=5432 user={{ rep_user }} password={{ rep_password }}'"
+      lineinfile: dest={{ data_directory }}/recovery.conf line="primary_conninfo = 'host={{item}} port=5432 user={{ rep_user }} password={{ rep_password }}'"
       with_items:
         - "{{ groups['pmasters'] }}"
 

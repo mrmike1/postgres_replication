@@ -10,9 +10,9 @@
       register: is_installed
 
     - name: Check if already a slave
-      stat: path=/var/lib/postgresql/{{ postgresql_version }}/main/recovery.conf
+      stat: path={{ data_directory }}/recovery.conf
       register: recovery
-  
+
     - name: Install Packages
       include: includes/packages.yml
       when: is_installed.stat.exists == False
@@ -30,5 +30,5 @@
     - name: Setup Slaves when they are new slaves
       include: includes/slave.yml
       when:
-        - "'pslaves' in group_names"
-        - recovery.stat.exists == False
+       - "'pslaves' in group_names"
+        #- recovery.stat.exists == False

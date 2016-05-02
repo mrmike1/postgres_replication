@@ -49,7 +49,7 @@
 
     - name: Rsync tables
       become_user: postgres
-      shell: rsync -cva --inplace --exclude=*pg_xlog* /var/lib/postgresql/{{ postgresql_version }}/main/ postgres@{{ item }}:/var/lib/postgresql/{{ postgresql_version }}/main/
+      shell: rsync -cva --inplace --exclude=*pg_xlog* {{ data_directory }}/ postgres@{{ item }}:{{ data_directory }}/
       with_items:
         - "{{ groups['pslaves'] }}"
       when:

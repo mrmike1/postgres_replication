@@ -21,8 +21,7 @@ db_name: test
 db_pass: 11
 rep_user: rep
 rep_password: reppassword
-project_name: replication
-project_root: /home/postgres
+data_directory: /data/postgres
 system_packages:
   - rsync
   - postgresql-9.5

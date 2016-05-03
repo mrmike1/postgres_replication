@@ -1,13 +1,13 @@
 ---
     - name: Add master IP to pg_hba.conf
       become_user: postgres
-      lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf line="host    replication     rep     {{item}}/32  md5"
+      lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf line="host    replication     {{ rep_user }}     {{item}}/32  md5"
       with_items:
         - "{{ groups['pmasters'] }}"
 
     - name: Base Backup
       become_user: postgres
-      shell: PGPASSWORD="{{rep_password}}" pg_basebackup -h {{ item }} -D {{ data_directory }} -U rep -v -w
+      shell: PGPASSWORD="{{rep_password}}" pg_basebackup -h {{ item }} -D {{ data_directory }} -U {{ rep_user}} -v -w
       with_items:
         - "{{ groups['pmasters'] }}"
 

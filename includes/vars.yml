@@ -23,7 +23,6 @@ rep_user: rep
 rep_password: reppassword
 data_directory: /home/data
 system_packages:
-  - rsync
   - postgresql-9.5
   - postgresql-9.5-prefix
   - python-psycopg2

@@ -2,6 +2,10 @@
     - name: Stop Postgresql
       service: name=postgresql state=stopped
 
+    - name: run initdb on directory
+      become_user: postgres
+      command: /usr/lib/postgresql/{{ postgresql_version }}/bin/initdb -D {{ data_directory }}
+
     - name: Add master to pg_hba
       become_user: postgres
       lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf line="host    all    {{ db_user }}     {{ inventory_hostname }}/32  trust"
@@ -9,11 +13,8 @@
     - name: Add slaves IP to pg_hba.conf
       become_user: postgres
       lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf line="host    replication     rep     {{item}}/32  md5"
-      when: item.is_new is defined and 'pslaves' in group_names
       with_items:
         - "{{ groups['pslaves'] }}"
-      when:
-        - "not {{hostvars[item]['recovery']['stat']['exists']}}"
 
     - name: Add interface IP to listen on
       become_user: postgres
@@ -43,19 +44,4 @@
     - name: Restart Postgresql service
       service: name=postgresql state=restarted
 
-    - name: Start Backup
-      become_user: postgres
-      shell: psql -c "select pg_start_backup('initial_backup');"
-
-    - name: Rsync tables
-      become_user: postgres
-      shell: rsync -cva --inplace --exclude=*pg_xlog* {{ data_directory }}/ postgres@{{ item }}:{{ data_directory }}/
-      with_items:
-        - "{{ groups['pslaves'] }}"
-      when:
-        - "not {{hostvars[item]['recovery']['stat']['exists']}}"
-
-    - name: Finish Backup
-      become_user: postgres
-      shell: psql -c "select pg_stop_backup();"   
 

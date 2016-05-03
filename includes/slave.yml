@@ -1,4 +1,17 @@
 ---
+    - name: Add master IP to pg_hba.conf
+      become_user: postgres
+      lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf line="host    replication     rep     {{item}}/32  md5"
+      with_items:
+        - "{{ groups['pmasters'] }}"
+
+    - name: Base Backup
+      become_user: postgres
+      shell: PGPASSWORD="{{rep_password}}" pg_basebackup -h {{ item }} -D {{ data_directory }} -U rep -v -w
+      with_items:
+        - "{{ groups['pmasters'] }}"
+
+
     - name: Add postgres config directives
       become_user: postgres
       lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf line={{ item }}
@@ -8,12 +21,6 @@
     - name: Add interface IP to listen on 
       become_user: postgres
       lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf line="listen_addresses = '{{ inventory_hostname }}'"
-
-    - name: Add master IP to pg_hba.conf
-      become_user: postgres
-      lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf line="host    replication     rep     {{item}}/32  md5"
-      with_items:
-        - "{{ groups['pmasters'] }}"
 
     - name: Add master IP to pg_hba.conf
       become_user: postgres

@@ -26,3 +26,4 @@ system_packages:
   - rsync
   - postgresql-9.5
   - postgresql-9.5-prefix
+  - python-psycopg2

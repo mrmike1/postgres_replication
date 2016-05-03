@@ -1,11 +1,7 @@
 ---
     - name: create data directory and change ownership
       become_method: sudo
-      file: path={{ data_directory }} owner=postgres group=postgres mode=0775 recurse=yes state=directory
-
-    - name: run initdb on directory
-      become_user: postgres
-      command: /usr/lib/postgresql/{{ postgresql_version }}/bin/initdb -D {{ data_directory }}
+      file: path={{ data_directory }} owner=postgres group=postgres mode=0700 recurse=yes state=directory
 
     - name: change postgres data directory in config files
       become_user: postgres

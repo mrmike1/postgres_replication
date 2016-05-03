@@ -12,7 +12,7 @@
 
     - name: Add slaves IP to pg_hba.conf
       become_user: postgres
-      lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf line="host    replication     rep     {{item}}/32  md5"
+      lineinfile: dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf line="host    replication     {{ rep_user }}     {{item}}/32  md5"
       with_items:
         - "{{ groups['pslaves'] }}"
 
